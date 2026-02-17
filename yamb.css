@@ -369,6 +369,7 @@ button, select,
 input[type='submit'],
 input[type='button'],
 input[type='checkbox'],
+input[type='color'],
 input[type='range'],
 input[type='radio'] {
 	cursor: pointer;
