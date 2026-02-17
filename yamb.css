@@ -498,14 +498,6 @@ input[type='checkbox']:checked::before {
 	content: '✔';
 	transform: translateY(-50%) translateX(-6px);
 }
-input[type='checkbox']:active,
-input[type='radio']:active,
-input[type='submit']:active,
-input[type='button']:active,
-input[type='range']:active,
-button:active {
-	transform: translateY(2px);
-}
 input:read-only {
 	user-select: all;
 }
