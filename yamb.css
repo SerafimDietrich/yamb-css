@@ -77,6 +77,11 @@ html {
 }
 
 /* visual sugar */
+::-moz-selection {
+	color: var(--text-color);
+	background-color: var(--selection-color);
+	text-shadow: none;
+}
 ::selection {
 	color: var(--text-color);
 	background-color: var(--selection-color);
@@ -92,7 +97,8 @@ body {
 	 * but I think legibility is more important and old problems are gone meanwhile */
 	text-rendering: optimizeLegibility;
 	font-variant-ligatures: common-ligatures;
-	font-kerning: normal;
+	-webkit-font-kerning: normal;
+	        font-kerning: normal;
 	line-height: 1.6;
 	color: var(--text-color);
 	background-color: var(--background-color);
@@ -283,15 +289,18 @@ address a {
 }
 a[href^='mailto\:']::before {
 	content: '📧 ';
-	filter: saturate(0);
+	-webkit-filter: saturate(0);
+	        filter: saturate(0);
 }
 a[href^='tel\:']::before {
 	content: '📞 ';
-	filter: saturate(0);
+	-webkit-filter: saturate(0);
+	        filter: saturate(0);
 }
 a[href^='sms\:']::before {
 	content: '💬 ';
-	filter: saturate(0);
+	-webkit-filter: saturate(0);
+	        filter: saturate(0);
 }
 
 mark {
@@ -362,6 +371,18 @@ iframe {
 }
 
 /* FORMS */
+::-webkit-input-placeholder {
+  color: var(--form-placeholder);
+}
+::-moz-placeholder {
+  color: var(--form-placeholder);
+}
+:-ms-input-placeholder {
+  color: var(--form-placeholder);
+}
+::-ms-input-placeholder {
+  color: var(--form-placeholder);
+}
 ::placeholder {
   color: var(--form-placeholder);
 }
@@ -397,6 +418,8 @@ input,
 select,
 button,
 textarea {
+	-moz-appearance: none;
+	     appearance: none;
 	-webkit-appearance: none;
 }
 textarea {
@@ -499,8 +522,15 @@ input[type='checkbox']:checked::before {
 	content: '✔';
 	transform: translateY(-50%) translateX(-6px);
 }
+input:-moz-read-only {
+	-moz-user-select: all;
+	     user-select: all;
+}
 input:read-only {
-	user-select: all;
+	-webkit-user-select: all;
+	   -moz-user-select: all;
+	    -ms-user-select: all;
+	        user-select: all;
 }
 fieldset {
 	border: 1px var(--border-color) solid;
@@ -531,6 +561,8 @@ input[type='range']::-webkit-slider-runnable-track,
 input[type='range']::-moz-range-track {
 	width: 100%;
 	height: 9.5px;
+	-webkit-transition: 0.2s;
+	-moz-transition: 0.2s;
 	transition: 0.2s;
 	background: var(--background-dark-color);
 	border-radius: 3px;
@@ -553,6 +585,8 @@ input[type='range']::-moz-range-thumb {
 /* SEARCH input */
 /* mitigations against Chrome's uglyness */
 input[type="search"] {
+	-moz-appearance: textfield;
+	     appearance: textfield;
 	-webkit-appearance: textfield;
 }
 input::-webkit-search-decoration,
@@ -628,7 +662,13 @@ nav ul li::marker {
 		/* filter are a nice feature
 		   you can have Photoshop-esque <img> stylings
 		*/
-		filter:
+		-webkit-filter:
+				opacity(90%)
+				/* why not the 'opacity' property of CSS?
+				   -> `filter` has hardware acceleration in most browsers! = FAST */
+				brightness(0.9)
+				contrast(90%);
+		        filter:
 				opacity(90%)
 				/* why not the 'opacity' property of CSS?
 				   -> `filter` has hardware acceleration in most browsers! = FAST */
@@ -638,7 +678,12 @@ nav ul li::marker {
 
 	/* If you have graphics with white background (like charts) this will help */
 	img.graphic {
-		filter:
+		-webkit-filter:
+				/* invert will help with the white background */
+				invert(100%)
+				/* to get the original colors back, you rotate the hue back */
+				hue-rotate(180deg);
+		        filter:
 				/* invert will help with the white background */
 				invert(100%)
 				/* to get the original colors back, you rotate the hue back */
@@ -650,7 +695,8 @@ nav ul li::marker {
 	 * nicest thing: it even works on emojis! 👋🏻
 	 */
 	.desaturate {
-		filter: saturate(0);
+		-webkit-filter: saturate(0);
+		        filter: saturate(0);
 	}
 }
 
@@ -671,7 +717,8 @@ nav ul li::marker {
 		color: black !important;
 		font-size: 12pt;
 		max-width: 100%;
-		box-decoration-break: clone; /* boxes should be treated per page */
+		-webkit-box-decoration-break: clone;
+		        box-decoration-break: clone; /* boxes should be treated per page */
 		box-shadow: none !important;
 		text-shadow: none !important;
 	}
@@ -690,9 +737,12 @@ nav ul li::marker {
 		page-break-before: auto;
 		page-break-after: auto;
 		page-break-inside: avoid;
-		break-before: auto;
-		break-after: auto;
-		break-inside: avoid;
+		-moz-column-break-before: auto;
+		     break-before: auto;
+		-moz-column-break-after: auto;
+		     break-after: auto;
+		-moz-column-break-inside: avoid;
+		     break-inside: avoid;
 	}
 
 	pre {
@@ -709,16 +759,19 @@ nav ul li::marker {
 
 	/* always cause a page break before an h1 header */
 	h1 {
-		break-before: page;
+		-moz-column-break-before: page;
+		     break-before: page;
 	}
 	/* avoid paragraphs being detached from preceding header */
 	h1, h2, h3 {
 		page-break-after: avoid;
-		break-after: avoid-page;
+		-moz-column-break-after: avoid;
+		     break-after: avoid-page;
 	}
 	h1, h2, h3, h4, h5, h6 {
 		page-break-inside: avoid;
-		break-inside: avoid;
+		-moz-column-break-inside: avoid;
+		     break-inside: avoid;
 	}
 
 	/* display expansions of abbreviations */
